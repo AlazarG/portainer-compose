@@ -4,6 +4,7 @@ services:
   proxy:
     build: nginx/
     container_name: "portainer-proxy"
+    restart: always
     ports:
       - "80:80"
     networks:
@@ -12,12 +13,14 @@ services:
   templates:
     image: portainer/templates
     container_name: "portainer-templates"
+    restart: always
     networks:
       - local
 
   portainer:
     image: portainer/portainer
     container_name: "portainer-app"
+    restart: always
 #Automatically choose 'Manage the Docker instance where Portainer is running' by adding <--host=unix:///var/run/docker.sock> to the command
     command: --templates http://templates/templates.json
     networks:
@@ -29,6 +32,7 @@ services:
   watchtower:
     image: v2tec/watchtower
     container_name: "portainer-watchtower"
+    restart: always
     command: --cleanup portainer-app portainer-watchtower portainer/templates
     networks:
       - local
