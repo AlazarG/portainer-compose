@@ -10,19 +10,11 @@ services:
     networks:
       - local
 
-  templates:
-    image: portainer/templates
-    container_name: "portainer-templates"
-    restart: always
-    networks:
-      - local
-
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer-ce:latest
     container_name: "portainer-app"
     restart: always
-#Automatically choose 'Manage the Docker instance where Portainer is running' by adding <--host=unix:///var/run/docker.sock> to the command
-    command: --templates http://templates/templates.json
+    command: --templates https://raw.githubusercontent.com/portainer/templates/master/templates.json
     networks:
       - local
     volumes:
@@ -33,7 +25,7 @@ services:
     image: v2tec/watchtower
     container_name: "portainer-watchtower"
     restart: always
-    command: --cleanup portainer-app portainer-watchtower portainer/templates
+    command: --cleanup portainer-app portainer-watchtower
     networks:
       - local
     volumes:
